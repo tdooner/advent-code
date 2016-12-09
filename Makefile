@@ -1,4 +1,4 @@
-all: 01/answer 02/answer
+all: 01/answer 02/answer 03/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -7,3 +7,6 @@ all: 01/answer 02/answer
 	ruby 02/process.rb 02/input-test-description 02/input-test | grep -E '1985'
 	ruby 02/process.rb 02/input-description 02/input-test | grep -E '5DB3'
 	ruby 02/process.rb 02/input-description 02/input > $@
+
+03/answer: 03/process.rb
+	ruby 03/process.rb 03/input
