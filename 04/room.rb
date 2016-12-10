@@ -18,6 +18,14 @@ class Room
     @checksum == correct_checksum
   end
 
+  def decrypted_name
+    @name.gsub('-', ' ').each_byte.map do |byte|
+      next ' ' if byte == 32 # ascii 32 is ' '
+
+      (97 + (((byte - 97) + @sector) % 26)).chr
+    end.join
+  end
+
   private
 
   def correct_checksum

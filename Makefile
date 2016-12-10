@@ -11,6 +11,10 @@ all: 01/answer 02/answer 03/answer 04/answer
 03/answer: 03/process.rb
 	ruby 03/process.rb 03/input
 
-04/answer: 04/sum_sectors.rb
+04/answer: 04/sum_sectors.rb 04/room.rb 04/answer-part-2
 	ruby 04/sum_sectors.rb 04/input-test | grep -E '1514'
 	ruby 04/sum_sectors.rb 04/input > $@
+
+04/answer-part-2: 04/room.rb 04/decrypt_names.rb
+	ruby 04/decrypt_names.rb 04/input-test | grep -E 'very encrypted name'
+	ruby 04/decrypt_names.rb 04/input | grep 'northpole object storage' > $@
