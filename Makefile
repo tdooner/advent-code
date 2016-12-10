@@ -29,4 +29,5 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer
 
 06/answer: 06/process.rb
 	ruby 06/process.rb 06/input-test | grep -E 'easter'
+	ruby 06/process.rb 06/input-test | grep -E 'advent'
 	ruby 06/process.rb 06/input > $@
