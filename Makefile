@@ -19,6 +19,10 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer
 	ruby 04/decrypt_names.rb 04/input-test | grep -E 'very encrypted name'
 	ruby 04/decrypt_names.rb 04/input | grep 'northpole object storage' > $@
 
-05/answer: 05/bruteforce.rb
+05/answer: 05/bruteforce.rb 05/answer-ordered
 	ruby 05/bruteforce.rb abc | grep -E '18f47a30'
 	ruby 05/bruteforce.rb ojvtpuvg > $@
+
+05/answer-ordered: 05/bruteforce_ordered.rb
+	ruby 05/bruteforce_ordered.rb abc | grep -E '05ace8e3'
+	ruby 05/bruteforce_ordered.rb ojvtpuvg > $@
