@@ -9,7 +9,7 @@ all: 01/answer 02/answer 03/answer 04/answer
 	ruby 02/process.rb 02/input-description 02/input > $@
 
 03/answer: 03/process.rb
-	ruby 03/process.rb 03/input
+	ruby 03/process.rb 03/input > $@
 
 04/answer: 04/sum_sectors.rb 04/room.rb 04/answer-part-2
 	ruby 04/sum_sectors.rb 04/input-test | grep -E '1514'
