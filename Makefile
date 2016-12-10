@@ -1,4 +1,4 @@
-all: 01/answer 02/answer 03/answer
+all: 01/answer 02/answer 03/answer 04/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -10,3 +10,7 @@ all: 01/answer 02/answer 03/answer
 
 03/answer: 03/process.rb
 	ruby 03/process.rb 03/input
+
+04/answer: 04/sum_sectors.rb
+	ruby 04/sum_sectors.rb 04/input-test | grep -E '1514'
+	ruby 04/sum_sectors.rb 04/input > $@
