@@ -1,4 +1,4 @@
-all: 01/answer 02/answer 03/answer 04/answer
+all: 01/answer 02/answer 03/answer 04/answer 05/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -18,3 +18,7 @@ all: 01/answer 02/answer 03/answer 04/answer
 04/answer-part-2: 04/room.rb 04/decrypt_names.rb
 	ruby 04/decrypt_names.rb 04/input-test | grep -E 'very encrypted name'
 	ruby 04/decrypt_names.rb 04/input | grep 'northpole object storage' > $@
+
+05/answer: 05/bruteforce.rb
+	ruby 05/bruteforce.rb abc | grep -E '18f47a30'
+	ruby 05/bruteforce.rb ojvtpuvg > $@
