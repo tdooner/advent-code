@@ -1,4 +1,4 @@
-all: 01/answer 02/answer 03/answer 04/answer 05/answer
+all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -26,3 +26,7 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer
 05/answer-ordered: 05/bruteforce_ordered.rb
 	ruby 05/bruteforce_ordered.rb abc | grep -E '05ace8e3'
 	ruby 05/bruteforce_ordered.rb ojvtpuvg > $@
+
+06/answer: 06/process.rb
+	ruby 06/process.rb 06/input-test | grep -E 'easter'
+	ruby 06/process.rb 06/input > $@
