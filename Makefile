@@ -1,4 +1,4 @@
-all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer
+all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer 10/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -35,3 +35,9 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer
 07/answer: 07/process.rb 07/input-test
 	ruby 07/process.rb 07/input-test | grep -E '2'
 	ruby 07/process.rb 07/input > $@
+
+10/answer: 10/process.rb 10/input
+	WATCH=1 ruby 10/process.rb 10/input-test | grep -E '1 compared 2 and 3'
+	WATCH=1 ruby 10/process.rb 10/input-test | grep -E 'output 2 gets value 3'
+	WATCH=1 ruby 10/process.rb 10/input-test | grep -E 'output 0 gets value 5'
+	WATCH=2 ruby 10/process.rb 10/input > $@
