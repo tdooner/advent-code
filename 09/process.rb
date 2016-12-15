@@ -23,9 +23,9 @@ def parse(line)
     i = end_capture + length + 1
   end
 
-  output.length
+  output
 end
 
 ARGF.each_line.each_with_index do |line, i|
-  puts "#{i}: #{parse(line.strip)}"
+  puts "#{i}: #{parse(line.strip).length}"
 end

@@ -43,17 +43,17 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 08/answer:
 	ruby 08/process.rb 08/input > $@
 
-09/answer:
-	ruby 09/process.rb 09/input-test | grep '0: ADVENT'
-	ruby 09/process.rb 09/input-test | grep '1: ABBBBBC'
-	ruby 09/process.rb 09/input-test | grep '2: XYZXYZXYZ'
-	ruby 09/process.rb 09/input-test | grep '3: ABCBCDEFEFG'
-	ruby 09/process.rb 09/input-test | grep '4: (1x3)A'
-	ruby 09/process.rb 09/input-test | grep '5: X(3x3)ABC(3x3)ABCY'
-	VERSION=2 ruby 09/process.rb 09/input-test | grep '5: XABCABCABCABCABCABCY'
-	echo "part 1 (subtract 3): " >$@
-	ruby 09/process.rb 09/input | tr -d '\n' | wc -c >> $@
-	echo "part 2 (subtract 3): " >>$@
+09/answer: 09/process.rb
+	ruby 09/process.rb 09/input-test | grep '0: 6'
+	ruby 09/process.rb 09/input-test | grep '1: 7'
+	ruby 09/process.rb 09/input-test | grep '2: 9'
+	ruby 09/process.rb 09/input-test | grep '3: 11'
+	ruby 09/process.rb 09/input-test | grep '4: 6'
+	ruby 09/process.rb 09/input-test | grep '5: 18'
+	VERSION=2 ruby 09/process.rb 09/input-test | grep '5: 20'
+	echo "part 1: " >$@
+	ruby 09/process.rb 09/input | sed -e 's/0: //' >> $@
+	echo "part 2: " >>$@
 	# TODO: don't actually compute the length
 
 10/answer: 10/process.rb 10/input
