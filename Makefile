@@ -1,5 +1,5 @@
 all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
-	08/answer-part-1 10/answer
+	08/answer-part-1 09/answer 10/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -42,6 +42,15 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 
 08/answer:
 	ruby 08/process.rb 08/input > $@
+
+09/answer:
+	ruby 09/process.rb 09/input-test | grep 'ADVENT'
+	ruby 09/process.rb 09/input-test | grep 'ABBBBBC'
+	ruby 09/process.rb 09/input-test | grep 'XYZXYZXYZ'
+	ruby 09/process.rb 09/input-test | grep 'ABCBCDEFEFG'
+	ruby 09/process.rb 09/input-test | grep '(1x3)A'
+	ruby 09/process.rb 09/input-test | grep 'X(3x3)ABC(3x3)ABCY'
+	ruby 09/process.rb 09/input | tr -d '\n' | wc -c > $@
 
 10/answer: 10/process.rb 10/input
 	WATCH=1 ruby 10/process.rb 10/input-test | grep -E '1 compared 2 and 3'
