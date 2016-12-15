@@ -62,6 +62,9 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	WATCH=1 ruby 10/process.rb 10/input-test | grep -E 'output 0 gets value 5'
 	WATCH=2 ruby 10/process.rb 10/input > $@
 
+11/answer:
+	cd 11 && $(MAKE)
+
 14/answer: 14/process.rb
 	ruby 14/process.rb abc | grep '22728'
 	echo "part 1:" > $@
