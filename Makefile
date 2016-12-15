@@ -44,13 +44,17 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	ruby 08/process.rb 08/input > $@
 
 09/answer:
-	ruby 09/process.rb 09/input-test | grep 'ADVENT'
-	ruby 09/process.rb 09/input-test | grep 'ABBBBBC'
-	ruby 09/process.rb 09/input-test | grep 'XYZXYZXYZ'
-	ruby 09/process.rb 09/input-test | grep 'ABCBCDEFEFG'
-	ruby 09/process.rb 09/input-test | grep '(1x3)A'
-	ruby 09/process.rb 09/input-test | grep 'X(3x3)ABC(3x3)ABCY'
-	ruby 09/process.rb 09/input | tr -d '\n' | wc -c > $@
+	ruby 09/process.rb 09/input-test | grep '0: ADVENT'
+	ruby 09/process.rb 09/input-test | grep '1: ABBBBBC'
+	ruby 09/process.rb 09/input-test | grep '2: XYZXYZXYZ'
+	ruby 09/process.rb 09/input-test | grep '3: ABCBCDEFEFG'
+	ruby 09/process.rb 09/input-test | grep '4: (1x3)A'
+	ruby 09/process.rb 09/input-test | grep '5: X(3x3)ABC(3x3)ABCY'
+	VERSION=2 ruby 09/process.rb 09/input-test | grep '5: XABCABCABCABCABCABCY'
+	echo "part 1 (subtract 3): " >$@
+	ruby 09/process.rb 09/input | tr -d '\n' | wc -c >> $@
+	echo "part 2 (subtract 3): " >>$@
+	# TODO: don't actually compute the length
 
 10/answer: 10/process.rb 10/input
 	WATCH=1 ruby 10/process.rb 10/input-test | grep -E '1 compared 2 and 3'

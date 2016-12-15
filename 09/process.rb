@@ -16,13 +16,16 @@ def parse(line)
 
     length, repeat = line[(next_capture + 1)..(end_capture - 1)].split('x').map(&:to_i)
     group = line[(end_capture + 1)..(end_capture + length)]
+    if ENV['VERSION'] == '2' && group.include?('(')
+      group = parse(group)
+    end
     output << (group * repeat)
     i = end_capture + length + 1
   end
 
-  output
+  output.length
 end
 
-ARGF.each_line do |line|
-  puts parse(line.strip)
+ARGF.each_line.each_with_index do |line, i|
+  puts "#{i}: #{parse(line.strip)}"
 end
