@@ -64,4 +64,8 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 
 14/answer: 14/process.rb
 	ruby 14/process.rb abc | grep '22728'
-	ruby 14/process.rb ngcjuoqr > $@
+	echo "part 1:" > $@
+	ruby 14/process.rb ngcjuoqr >>$@
+	STRETCH=2016 ruby 14/process.rb abc | grep '22551'
+	echo "part 2:" > $@
+	STRETCH=2016 ruby 14/process.rb ngcjuoqr >>$@

@@ -1,4 +1,4 @@
-require 'openssl'
+require 'digest'
 
 def hash_triple(str)
   str.each_char.each_cons(3).detect { |a, b, c| a == b && b == c }&.first
@@ -11,8 +11,9 @@ def hash_five_sequences(str)
 end
 
 class ThousandHashFutureReader
-  def initialize(salt)
+  def initialize(salt, stretch)
     @salt = salt
+    @stretch = stretch
     @buffer = Array.new(1000, '')
     @five_cache = Array.new(1000, false)
     @i = 0
@@ -38,8 +39,13 @@ class ThousandHashFutureReader
 
   def each_hash(&block)
     loop do
-      hash = OpenSSL::Digest::MD5.new.digest(@salt + @i.to_s)
-      hex = hash.unpack('H*')[0]
+      input = @salt + @i.to_s
+
+      (@stretch + 1).times do
+        input = Digest::MD5.hexdigest(input)
+      end
+
+      hex = input
 
       idx = @i % @buffer.length
       if @i > @buffer.length
@@ -55,7 +61,8 @@ class ThousandHashFutureReader
 end
 
 keys = 0
-reader = ThousandHashFutureReader.new(ARGV.shift)
+stretch = ENV['STRETCH'] ? ENV['STRETCH'].to_i : 0
+reader = ThousandHashFutureReader.new(ARGV.shift, stretch)
 reader.each_hash do |hash, i|
   triple = hash_triple(hash)
 
