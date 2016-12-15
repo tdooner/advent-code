@@ -1,5 +1,5 @@
 all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
-	08/answer-part-1 09/answer 10/answer
+	08/answer-part-1 09/answer 10/answer 14/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -61,3 +61,7 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	WATCH=1 ruby 10/process.rb 10/input-test | grep -E 'output 2 gets value 3'
 	WATCH=1 ruby 10/process.rb 10/input-test | grep -E 'output 0 gets value 5'
 	WATCH=2 ruby 10/process.rb 10/input > $@
+
+14/answer: 14/process.rb
+	ruby 14/process.rb abc | grep '22728'
+	ruby 14/process.rb ngcjuoqr > $@
