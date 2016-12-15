@@ -54,7 +54,7 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	echo "part 1: " >$@
 	ruby 09/process.rb 09/input | sed -e 's/0: //' >> $@
 	echo "part 2: " >>$@
-	# TODO: don't actually compute the length
+	VERSION=2 ruby 09/process.rb 09/input | sed -e 's/0: //' >> $@
 
 10/answer: 10/process.rb 10/input
 	WATCH=1 ruby 10/process.rb 10/input-test | grep -E '1 compared 2 and 3'
