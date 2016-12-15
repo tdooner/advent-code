@@ -1,4 +1,5 @@
-all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer 10/answer
+all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
+	08/answer-part-1 10/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -35,6 +36,12 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer 10/an
 07/answer: 07/process.rb 07/input-test
 	ruby 07/process.rb 07/input-test | grep -E '2'
 	ruby 07/process.rb 07/input > $@
+
+08/answer-part-1: 08/answer
+	cat 08/answer | tr -Cd '#' | wc -c >$@
+
+08/answer:
+	ruby 08/process.rb 08/input > $@
 
 10/answer: 10/process.rb 10/input
 	WATCH=1 ruby 10/process.rb 10/input-test | grep -E '1 compared 2 and 3'
