@@ -63,7 +63,8 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	WATCH=2 ruby 10/process.rb 10/input > $@
 
 11/answer:
-	cd 11 && $(MAKE)
+	ruby 11/process.rb 11/input-test | grep '11'
+	ruby 11/process.rb 11/input >$@
 
 14/answer: 14/process.rb
 	ruby 14/process.rb abc | grep '22728'

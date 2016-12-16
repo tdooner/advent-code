@@ -4,12 +4,20 @@ MICROCHIP = /(?<element>\w+)-compatible microchip/
 GENERATOR = /(?<element>\w+) generator/
 
 class Item < Struct.new(:type, :element)
+  def <=>(other)
+    [other.type, other.element] <=> [self.type, self.element]
+  end
+
   def generator?
     type == :generator
   end
 
   def microchip?
     type == :microchip
+  end
+
+  def elevator?
+    type == :elevator
   end
 end
 
