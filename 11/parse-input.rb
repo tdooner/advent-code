@@ -3,18 +3,28 @@ require 'json'
 MICROCHIP = /(?<element>\w+)-compatible microchip/
 GENERATOR = /(?<element>\w+) generator/
 
+class Item < Struct.new(:type, :element)
+  def generator?
+    type == :generator
+  end
+
+  def microchip?
+    type == :microchip
+  end
+end
+
 def parse_input(file)
-  floor_contents = [[{ type: :elevator }]]
+  floor_contents = [[Item.new(:elevator)]]
 
   ARGF.each_line.each_with_index do |line, floor|
     floor_contents[floor] ||= []
 
     line.scan(MICROCHIP) do |microchip|
-      floor_contents[floor] << { type: :microchip, element: microchip.first }
+      floor_contents[floor] << Item.new(:microchip, microchip.first)
     end
 
     line.scan(GENERATOR) do |generator|
-      floor_contents[floor] << { type: :generator, element: generator.first }
+      floor_contents[floor] << Item.new(:generator, generator.first)
     end
   end
 
