@@ -16,14 +16,15 @@ class Searcher
         return final_state
       end
 
-      seen_states = seen_states.merge(states)
+      seen_states = seen_states.merge(states.map(&:hash))
       next_states = Set.new
       states = states.to_a
-      while state = states.pop
+      states.each do |state|
         next_states = next_states.merge(state.each_move)
       end
 
-      states = next_states - seen_states
+      next_states.delete_if { |i| seen_states.include?(i.hash) }
+      states = next_states
 
       raise 'Ran out of states?!' if states.none?
     end
@@ -31,11 +32,11 @@ class Searcher
 end
 
 class State
-  attr_reader :previous_state
+  attr_reader :depth
 
-  def initialize(floor_contents, previous_state)
+  def initialize(floor_contents, depth)
     @floor_contents = floor_contents
-    @previous_state = previous_state
+    @depth = depth
   end
 
   def valid?
@@ -92,7 +93,7 @@ class State
           new_state[next_floor] << item2
         end
 
-        state = State.new(new_state, self)
+        state = State.new(new_state, @depth + 1)
         yield state if state.valid?
       end
     end
@@ -157,13 +158,7 @@ class State
   end
 end
 
-state = State.new(parse_input(ARGF), nil)
+state = State.new(parse_input(ARGF), 0)
 
 end_state = Searcher.new(state).solve!
-steps = 0
-while end_state.previous_state
-  end_state = end_state.previous_state
-  steps += 1
-end
-
-puts steps
+puts end_state.depth
