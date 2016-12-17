@@ -1,6 +1,6 @@
 all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	08/answer-part-1 09/answer 10/answer 12/answer 13/answer 14/answer 15/answer \
-	16/answer
+	17/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -96,13 +96,13 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	echo "part 2:" >> $@
 	ruby 15/process.rb 15/input-part-2 >>$@
 
-16/answer: 16/process.rb
-	ruby 16/process.rb ihgpwlah | grep -E '^DDRRRD$$'
-	ruby 16/process.rb kglvqrro | grep -E '^DDUDRLRRUDRD$$'
-	ruby 16/process.rb ulqzkmiv | grep -E '^DRURDRUDDLLDLUURRDULRLDUUDDDRR$$'
+17/answer: 16/process.rb
+	ruby 17/process.rb ihgpwlah | grep -E '^DDRRRD$$'
+	ruby 17/process.rb kglvqrro | grep -E '^DDUDRLRRUDRD$$'
+	ruby 17/process.rb ulqzkmiv | grep -E '^DRURDRUDDLLDLUURRDULRLDUUDDDRR$$'
 	echo "part 1:" > $@
-	ruby 16/process.rb pgflpeqp >>$@
-	MODE=longest ruby 16/process.rb kglvqrro | grep -E '^492$$'
-	MODE=longest ruby 16/process.rb ulqzkmiv | grep -E '^830$$'
+	ruby 17/process.rb pgflpeqp >>$@
+	MODE=longest ruby 17/process.rb kglvqrro | grep -E '^492$$'
+	MODE=longest ruby 17/process.rb ulqzkmiv | grep -E '^830$$'
 	echo "part 2:" >> $@
-	MODE=longest ruby 16/process.rb pgflpeqp >>$@
+	MODE=longest ruby 17/process.rb pgflpeqp >>$@
