@@ -1,6 +1,6 @@
 all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	08/answer-part-1 09/answer 10/answer 12/answer 13/answer 14/answer 15/answer \
-	17/answer
+	16/answer 17/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -96,7 +96,14 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	echo "part 2:" >> $@
 	ruby 15/process.rb 15/input-part-2 >>$@
 
-17/answer: 16/process.rb
+16/answer: 16/process.rb
+	ruby 16/process.rb 10000 20 | grep -E '^01100$$'
+	echo "part 1:" > $@
+	ruby 16/process.rb 00111101111101000 272 >>$@
+	echo "part 2:" >> $@
+	ruby 16/process.rb 00111101111101000 35651584 >>$@
+
+17/answer: 17/process.rb
 	ruby 17/process.rb ihgpwlah | grep -E '^DDRRRD$$'
 	ruby 17/process.rb kglvqrro | grep -E '^DDUDRLRRUDRD$$'
 	ruby 17/process.rb ulqzkmiv | grep -E '^DRURDRUDDLLDLUURRDULRLDUUDDDRR$$'
