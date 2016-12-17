@@ -4,7 +4,7 @@ class Board
     @favorite_number = favorite_number
   end
 
-  def search(startx, starty, destx, desty)
+  def search(startx, starty, destx, desty, search_until = :solution)
     distances = {
       [startx, starty] => 0,
     }
@@ -15,7 +15,7 @@ class Board
       current = nodes.shift
 
       neighbors(*current).each do |node|
-        if node == [destx, desty]
+        if search_until == :solution && node == [destx, desty]
           path = [current, node]
           while previous[path[0]] != [startx, starty]
             path.unshift(previous[path[0]])
@@ -26,9 +26,12 @@ class Board
         next if distances[node]
         distances[node] = distances[current] + 1
         previous[node] = current
-        nodes << node
+
+        nodes << node unless search_until == :distance_50 && distances[node] == 50
       end
     end
+
+    return distances if search_until == :distance_50
   end
 
   def to_s(path, destination)
@@ -77,6 +80,11 @@ favorite_number = ARGV.shift.to_i
 destination = ARGV.shift.split(',').map(&:to_i)
 
 b = Board.new(favorite_number)
-path = b.search(1, 1, destination[0], destination[1])
-puts path.length
-puts b.to_s(path, destination)
+if ENV['MODE'] == 'distance'
+  path = b.search(1, 1, destination[0], destination[1], :distance_50)
+  puts path.length
+else
+  path = b.search(1, 1, destination[0], destination[1], :solution)
+  puts path.length
+  puts b.to_s(path, destination)
+end

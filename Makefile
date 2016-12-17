@@ -74,8 +74,11 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	C=1 ruby 12/process.rb 12/input >>$@
 
 13/answer:
-	ruby 13/process.rb 10 7,4 | grep '11'
-	ruby 13/process.rb 1358 31,39 >$@
+	ruby 13/process.rb 10 7,4 | head -n 1 | grep '11'
+	echo "part 1:" > $@
+	ruby 13/process.rb 1358 31,39 >>$@
+	echo "part 2:" >> $@
+	MODE=distance ruby 13/process.rb 1358 31,39 >>$@
 
 14/answer: 14/process.rb
 	ruby 14/process.rb abc | grep '22728'
