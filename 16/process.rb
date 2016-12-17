@@ -15,8 +15,7 @@ class State < Struct.new(:x, :y, :passcode)
   end
 end
 
-
-def solve(passcode)
+def shortest(passcode)
   moves = [State.new(0, 0, passcode)]
 
   while moves.any?
@@ -30,4 +29,27 @@ def solve(passcode)
   end
 end
 
-puts solve(passcode).passcode.gsub(passcode, '')
+def longest(passcode)
+  moves = [State.new(0, 0, passcode)]
+  solutions = []
+
+  while moves.any?
+    current = moves.shift
+
+    current.next_moves.each do |move|
+      if move.x == 3 && move.y == 3
+        solutions << move
+      else
+        moves << move
+      end
+    end
+  end
+
+  solutions
+end
+
+if ENV['MODE'] == 'longest'
+  puts longest(passcode).last.passcode.gsub(passcode, '').length
+else
+  puts shortest(passcode).passcode.gsub(passcode, '')
+end

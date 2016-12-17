@@ -99,5 +99,10 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 16/answer: 16/process.rb
 	ruby 16/process.rb ihgpwlah | grep -E '^DDRRRD$$'
 	ruby 16/process.rb kglvqrro | grep -E '^DDUDRLRRUDRD$$'
-	ruby 16/process.rb kglvqrro | grep -E '^DDUDRLRRUDRD$$'
-	ruby 16/process.rb pgflpeqp >$@
+	ruby 16/process.rb ulqzkmiv | grep -E '^DRURDRUDDLLDLUURRDULRLDUUDDDRR$$'
+	echo "part 1:" > $@
+	ruby 16/process.rb pgflpeqp >>$@
+	MODE=longest ruby 16/process.rb kglvqrro | grep -E '^492$$'
+	MODE=longest ruby 16/process.rb ulqzkmiv | grep -E '^830$$'
+	echo "part 2:" >> $@
+	MODE=longest ruby 16/process.rb pgflpeqp >>$@
