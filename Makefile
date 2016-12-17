@@ -1,5 +1,5 @@
 all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
-	08/answer-part-1 09/answer 10/answer 12/answer 13/answer 14/answer
+	08/answer-part-1 09/answer 10/answer 12/answer 13/answer 14/answer 15/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -87,3 +87,10 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	STRETCH=2016 ruby 14/process.rb abc | grep '22551'
 	echo "part 2:" > $@
 	STRETCH=2016 ruby 14/process.rb ngcjuoqr >>$@
+
+15/answer: 15/process.rb
+	ruby 15/process.rb 15/input-test | grep '5'
+	echo "part 1:" > $@
+	ruby 15/process.rb 15/input >>$@
+	echo "part 2:" >> $@
+	ruby 15/process.rb 15/input-part-2 >>$@
