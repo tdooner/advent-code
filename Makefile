@@ -1,5 +1,5 @@
 all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
-	08/answer-part-1 09/answer 10/answer 12/answer 14/answer
+	08/answer-part-1 09/answer 10/answer 12/answer 13/answer 14/answer
 
 01/answer: 01/process.rb 01/input
 	ruby 01/process.rb > $@
@@ -72,6 +72,10 @@ all: 01/answer 02/answer 03/answer 04/answer 05/answer 06/answer 07/answer \
 	ruby 12/process.rb 12/input >>$@
 	echo "part 2:" >> $@
 	C=1 ruby 12/process.rb 12/input >>$@
+
+13/answer:
+	ruby 13/process.rb 10 7,4 | grep '11'
+	ruby 13/process.rb 1358 31,39 >$@
 
 14/answer: 14/process.rb
 	ruby 14/process.rb abc | grep '22728'
