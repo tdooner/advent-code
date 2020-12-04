@@ -1,4 +1,3 @@
-require 'pry'
 EXPECTED = {
   'byr' => { min: 1920, max: 2002 },
   'iyr' => { min: 2010, max: 2020 },
@@ -11,18 +10,22 @@ EXPECTED = {
 }
 
 def part1(input)
-  (EXPECTED.keys - ['cid']).all? { |field| input.split(/\s/).any? { |passport_field| passport_field.start_with?(field + ':') } }
+  provided_fields = input.split(/\s/).map { |f| f.split(':')[0] }
+  expected_fields = EXPECTED.keys - ['cid']
+
+  (provided_fields & expected_fields).length == expected_fields.length
 end
 
 def part2(input)
   fields = input.split(/\s/)
 
-  puts fields.inspect
-  part1(input) && fields.all? do |field|
+  return false unless part1(input)
+
+  fields.all? do |field|
     key, value = field.split(':')
     validators = EXPECTED[key]
 
-    valid = validators.find_all do |validator_type, validator_value|
+    validators.all? do |validator_type, validator_value|
       case validator_type
       when :min
         value.to_i >= validator_value
@@ -38,28 +41,13 @@ def part2(input)
         value.match?(validator_value)
       end
     end
-
-    valid.length == validators.length
   end
 end
 
-$num_valid = 0
-passport = ''
-passport_i = 1
-File.read(ARGV[0] == '--test' ? 'test-input-2' : 'input').each_line do |line|
-  if line.strip == ''
-    puts "passport #{passport_i}: #{part2(passport)}"
-    $num_valid += 1 if part2(passport)
-    passport = ''
-    passport_i += 1
-  else
-    passport << line
-  end
-end
-$num_valid += 1 if part2(passport)
-puts "passport #{passport_i}: #{part2(passport)}"
+passports = File.read(ARGV[0]).each_line.slice_when { |line| line == "\n" }.map(&:join)
 
 puts 'Part 1:'
+puts passports.count { |p| part1(p) }
 
 puts 'Part 2:'
-puts $num_valid
+puts passports.count { |p| part2(p) }
