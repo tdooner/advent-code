@@ -1,35 +1,34 @@
 require 'pry'
 
-def board(pass)
-  row = pass[0..7]
-  column = pass[7..-1]
-  min = 0
-  max = 127
-
-  row.chars.each do |chr|
+def binary_search(input, min, max, min_half_char, max_half_char)
+  input.chars.each do |chr|
     half = (max - min + 1) / 2
-    if chr == 'F'
+    if chr == min_half_char
       max = max - half
-    elsif chr == 'B'
+    elsif chr == max_half_char
       min = min + half
     end
   end
 
-  col_min = 0
-  col_max = 7
-  column.chars.each do |chr|
-    half = (col_max - col_min + 1) / 2
-    if chr == 'L'
-      col_max = col_max - half
-    elsif chr == 'R'
-      col_min = col_min + half
-    end
-  end
+  max
+end
 
-  { col: col_max, row: max, id: max * 8 + col_max }
+def identify_seat(input)
+  row = binary_search(input[0..7], 0, 127, 'F', 'B')
+  column = binary_search(input[7..9], 0, 7, 'L', 'R')
+
+  {
+    row: row,
+    col: column,
+    id: row * 8 + column,
+  }
 end
 
 input = File.read(ARGV[0]).split(/\n/)
 
-all = input.map { |i| board(i) }.map { |i| i[:id] }.sort
-puts (all.min..all.max).to_a - all
+puts 'Part 1:'
+puts input.map { |i| identify_seat(i) }.max_by { |i| i[:id] }
+
+puts 'Part 2:'
+given_ids = input.map { |i| identify_seat(i) }.map { |i| i[:id] }
+puts (given_ids.min..given_ids.max).to_a - given_ids
