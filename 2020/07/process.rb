@@ -6,7 +6,7 @@ def parse_input(input)
     bags = contents[0..-2].split(', ')
     rules[outer] = bags.map do |bag_rule|
       if bag_rule == 'no other bags'
-        []
+        [nil]
       elsif /(\d+) (.*) bags?/.match(bag_rule)
         [$~[1].to_i, $~[2]]
       else
@@ -22,12 +22,14 @@ def count_can_hold(rules, target_color)
   eligible_colors = [target_color]
 
   loop do
-    puts eligible_colors.inspect
-    containing_colors = Hash[rules.find_all { |k, v| v.any? { |valid_color| eligible_colors.include?(valid_color[1]) } }].map(&:first)
+    valid_container_colors = rules.find_all do |outer, inner_bags|
+      inner_bags.any? { |bag| eligible_colors.include?(bag[1]) }
+    end.map(&:first)
 
-    break if (eligible_colors & containing_colors).length == containing_colors.length
+    # stop when we don't find any new containers
+    break if (valid_container_colors - eligible_colors).empty?
 
-    eligible_colors |= containing_colors
+    eligible_colors |= valid_container_colors
   end
 
   eligible_colors - [target_color]
@@ -35,7 +37,7 @@ end
 
 def total_bags_included(rules, target_color)
   rules[target_color].sum do |(count, inner_color)|
-    next 0 unless inner_color
+    next 0 if count == nil
 
     count * (total_bags_included(rules, inner_color) + 1)
   end
