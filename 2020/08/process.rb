@@ -20,10 +20,10 @@ def run_until_loop(input)
     break if idx >= input.length
   end
 
-  acc
+  { value: acc, visited: visited }
 end
 
-def run_backwards(input)
+def run_part_2(input)
   terminating_indices = Set.new()
   terminating_indices << input.length - 1 
 
@@ -47,20 +47,7 @@ def run_backwards(input)
     terminating_indices |= new_terminating_indices
   end
 
-  infinite_looping_indices = Set.new
-  idx = 0
-  loop do
-    infinite_looping_indices << idx
-    case input[idx][0]
-    when 'nop'
-      idx += 1
-    when 'acc'
-      idx += 1
-    when 'jmp'
-      idx += input[idx][1]
-    end
-    break if infinite_looping_indices.include?(idx)
-  end
+  infinite_looping_indices = run_until_loop(input)[:visited]
 
   infinite_looping_indices.each do |i|
     opp, int = input[i]
@@ -69,13 +56,11 @@ def run_backwards(input)
       if terminating_indices.include?(i + int)
         puts "  Changing idx=#{i} from nop to jmp"
         new_input = input.dup.tap { |n| n[i][0] = 'jmp' }
-        puts "  #{run_until_loop(new_input)}"
       end
     when 'jmp'
       if terminating_indices.include?(i + 1)
         puts "  Changing idx=#{i} from jmp to nop"
         new_input = input.dup.tap { |n| n[i][0] = 'nop' }
-        puts "  #{run_until_loop(new_input)}"
       end
     end
   end
@@ -88,7 +73,7 @@ input = File.read(ARGV[0]).split(/\n/).map(&:strip)
   .map { |opp, int| [opp, int.to_i] }
 
 puts 'Part 1:'
-puts run_until_loop(input)
+puts run_until_loop(input)[:value]
 
 puts 'Part 2:'
-puts run_backwards(input)
+puts run_part_2(input)[:value]
