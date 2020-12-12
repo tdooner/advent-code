@@ -11,7 +11,7 @@ VECTORS = {
 
 class Ship
   def initialize
-    @direction = 90
+    @direction = 0    # East, just like in math!
     @x = 0
     @y = 0
   end
@@ -23,20 +23,12 @@ class Ship
   end
 
   def rotate(degrees)
-    @direction = (@direction + degrees) % 360
+    @direction += degrees
   end
 
   def move_forward(distance)
-    case @direction
-    when 0
-      @y += distance
-    when 90
-      @x += distance
-    when 180
-      @y -= distance
-    when 270
-      @x -= distance
-    end
+    @x += Math.cos(@direction * Math::PI / 180).round * distance
+    @y += Math.sin(@direction * Math::PI / 180).round * distance
   end
 
   def manhattan_distance
@@ -67,9 +59,9 @@ def solve(input)
     when 'N', 'S', 'E', 'W'
       ship.move(VECTORS[action], dist)
     when 'L'
-      ship.rotate(-1 * dist)
-    when 'R'
       ship.rotate(dist)
+    when 'R'
+      ship.rotate(-1 * dist)
     when 'F'
       ship.move_forward(dist)
     end
