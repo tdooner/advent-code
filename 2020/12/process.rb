@@ -1,102 +1,104 @@
+require 'matrix'
+
 input = $<.map(&:strip).map { |l| [l[0], l[1..-1].to_i] }
 
-def solve(input)
-  direction = 90
-  x = 0
-  y = 0
-  input.each do |(act, dist)|
-    case act
-    when 'N'
-      y -= dist
-    when 'S'
-      y += dist
-    when 'E'
-      x += dist
-    when 'W'
-      x -= dist
-    when 'L'
-      puts ['turning left', dist, direction].inspect
-      direction -= dist
-      direction = direction % 360
-      puts direction
-    when 'R'
-      direction += dist
-      puts ['turning right', dist, direction].inspect
-      direction = direction % 360
-      puts direction
-    when 'F'
-      case direction
-      when 0
-        y -= dist
-      when 90
-        x += dist
-      when 180
-        y += dist
-      when 270
-        x -= dist
-      end
+VECTORS = {
+  'N' => [0, 1],
+  'S' => [0, -1],
+  'E' => [1, 0],
+  'W' => [-1, 0],
+}
+
+class Ship
+  def initialize
+    @direction = 90
+    @x = 0
+    @y = 0
+  end
+
+  # vector is an [x, y] vector
+  def move(vector, distance)
+    @x += vector[0] * distance
+    @y += vector[1] * distance
+  end
+
+  def rotate(degrees)
+    @direction = (@direction + degrees) % 360
+  end
+
+  def move_forward(distance)
+    case @direction
+    when 0
+      @y += distance
+    when 90
+      @x += distance
+    when 180
+      @y -= distance
+    when 270
+      @x -= distance
     end
   end
 
-  puts [x, y].inspect
+  def manhattan_distance
+    @x.abs + @y.abs
+  end
 
-  x.abs + y.abs
+  def to_s
+    [@x, @y, @direction].inspect
+  end
+end
+
+def rotation_matrix(degrees, direction)
+  theta = (degrees * Math::PI / 180)
+
+  case direction
+  when 'L'
+    Matrix[[Math.cos(theta), Math.sin(theta)], [-1 * Math.sin(theta), Math.cos(theta)]]
+  when 'R'
+    Matrix[[Math.cos(theta), -1 * Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]]
+  end
+end
+
+def solve(input)
+  ship = Ship.new
+
+  input.each do |(action, dist)|
+    case action
+    when 'N', 'S', 'E', 'W'
+      ship.move(VECTORS[action], dist)
+    when 'L'
+      ship.rotate(-1 * dist)
+    when 'R'
+      ship.rotate(dist)
+    when 'F'
+      ship.move_forward(dist)
+    end
+  end
+
+  ship.manhattan_distance
 end
 
 def solve2(input)
-  direction = 90
-  x = 0
-  y = 0
-  waypoint_x = 10
-  waypoint_y = 1
+  ship = Ship.new
+  waypoint = [10, 1]
 
-  input.each do |(act, dist)|
-    puts [act, dist, x, y, waypoint_x, waypoint_y].inspect
-    case act
-    when 'N'
-      waypoint_y += dist
-    when 'S'
-      waypoint_y -= dist
-    when 'E'
-      waypoint_x += dist
-    when 'W'
-      waypoint_x -= dist
-    when 'L'
-      case dist % 360
-      when 90
-        new_x = -1 * waypoint_y
-        new_y = waypoint_x
-      when 180
-        new_x = -1 * waypoint_x
-        new_y = -1 * waypoint_y
-      when 270
-        new_x = waypoint_y
-        new_y = -1 * waypoint_x
-      end
-      waypoint_x = new_x
-      waypoint_y = new_y
-    when 'R'
-      case dist % 360
-      when 90
-        new_x = waypoint_y
-        new_y = -1 * waypoint_x
-      when 180
-        new_x = -1 * waypoint_x
-        new_y = -1 * waypoint_y
-      when 270
-        new_x = -1 * waypoint_y
-        new_y = waypoint_x
-      end
-      waypoint_x = new_x
-      waypoint_y = new_y
+  input.each do |(action, dist)|
+    case action
+    when 'N', 'S', 'E', 'W'
+      translation_matrix = Matrix[[dist]] * Matrix[VECTORS[action]]
+      waypoint = (Matrix[waypoint] + translation_matrix).to_a.first
+    when 'L', 'R'
+      waypoint = (Matrix[waypoint] * rotation_matrix(dist, action)).to_a.first.map(&:round)
     when 'F'
-      x += waypoint_x * dist
-      y += waypoint_y * dist
+      ship.move(waypoint, dist)
     end
   end
 
-  puts [x, y].inspect
-
-  x.abs + y.abs
+  ship.manhattan_distance
 end
+
+puts 'Part 1:'
+puts solve(input)
+
+puts 'Part 2:'
 puts solve2(input)
