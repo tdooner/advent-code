@@ -29,10 +29,13 @@ VALID_NUMBERS = {
   'abcdfg' => '9'
 }
 
-# Checks whether a mapping (e.g. 'deafbgc' from the part 2 example) is valid.
+# Checks whether a mapping (e.g. 'deafgbc' from the part 2 example) is valid.
 # A mapping is valid if every scrambled value in the `input` array can be
-# converted back to a valid number via the mapping (e.g. 'dab' -> 'acf' is valid
-# because it is a 7).
+# converted back to a valid number via the mapping (e.g. 'dab' can be converted
+# to a 7 via the mapping 'deafbgc' because it translates to 'acf'):
+#
+#   d e a f g b c
+#   a b c d e f g
 #
 # @param {mapping} String A 7-character string with the first character being
 #   the potential jumbled value of the 'a' segment, etc.
