@@ -1,17 +1,22 @@
-# frozen_string_literal: true
-
 require 'pry'
+def copy(value); return if value.nil?; `/bin/bash -c 'echo -n "#{value}" | pbcopy'`; "#{value}    <- COPIED TO CLIPBOARD" end
 
-# SKELETON SOLVING
-class Solution
-  def initialize(input)
-    @input = input
-  end
-
-  def solve
-    @input.codepoints.map { |i| i - "A".codepoints[0] + 1 }.join
-  end
+def parse(input)
+  input
 end
 
-# test input:
-puts Solution.new(ARGF.read.chomp).solve
+def part1(parsed)
+end
+
+def part2(parsed)
+end
+
+parsed = parse(ARGV.read.chomp)
+puts "PARSED: #{parsed.inspect}"
+
+puts "Part 1:"
+puts copy(part1(parsed))
+
+puts
+puts "Part 2:"
+puts copy(part2(parsed))
