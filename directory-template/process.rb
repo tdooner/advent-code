@@ -11,7 +11,7 @@ end
 def part2(parsed)
 end
 
-parsed = parse(ARGV.read.chomp)
+parsed = parse(ARGF.read.chomp)
 puts "PARSED: #{parsed.inspect}"
 
 puts "Part 1:"
