@@ -29,4 +29,8 @@ curl "https://adventofcode.com/2022/day/$(printf "%d" $day)/input" \
   -H 'Connection: keep-alive' \
   -H "Cookie: session=$SESSION_COOKIE" > $daily_directory_path/input
 
+echo "==== INPUT HEAD ===="
+head -n 20 $daily_directory_path/input
+read
+
 tmux new -c $daily_directory_path
