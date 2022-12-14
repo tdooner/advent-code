@@ -11,12 +11,12 @@ end
 def part2(parsed)
 end
 
-parsed = parse(ARGF.read.chomp)
-puts "PARSED: #{parsed.inspect}"
+input = ARGF.read.chomp
+puts "PARSED: #{parse(input)}"
 
 puts "Part 1:"
-puts pbcopy(part1(parsed))
+puts pbcopy(part1(parse(input)))
 
 puts
 puts "Part 2:"
-puts pbcopy(part2(parsed))
+puts pbcopy(part2(parse(input)))
