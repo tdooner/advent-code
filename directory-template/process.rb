@@ -1,8 +1,11 @@
 require 'bundler'; Bundler.require(:default)
 def pbcopy(value); return if value.nil?; `/bin/bash -c 'echo -n "#{value}" | pbcopy'`; "#{value}    <- COPIED TO CLIPBOARD" end
+def debug(&block); puts block.call if ENV['D'].present?; end
 
 def parse(input)
-  input.split("\n")
+  input
+    .split("\n")
+    .map { |l| l.match(//).captures }
 end
 
 def part1(parsed)
