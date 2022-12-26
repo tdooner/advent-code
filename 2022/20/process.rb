@@ -8,12 +8,15 @@ end
 
 def mix(numbers, iterations: 1)
   mixed = numbers.dup
+  original_positions = numbers.each_with_index.map { |num, i| [num, i, i] }
 
-  iterations.times do |i|
-    positions = numbers.each_with_index.to_a
+  iterations.times do
+    positions = original_positions.map(&:dup)
 
-    while (num, index = positions.shift)
+    while (num, index, original_index = positions.shift)
       new_index = (index + num) % (mixed.length - 1)
+
+      debug { "Moving #{num} from #{index} -> #{new_index}" }
 
       mixed.delete_at(index)
       mixed.insert(new_index, num)
@@ -22,11 +25,15 @@ def mix(numbers, iterations: 1)
         # item was moved forwards, we have to decrement the original location of
         # any item that was in between
         positions.each { |a| a[1] -= 1 if index < a[1] && a[1] <= new_index }
+        original_positions.each { |a| a[1] -= 1 if index < a[1] && a[1] <= new_index }
       elsif new_index < index
         # item was moved backwards, we have to increment the original location of
         # any item that was in between
-        positions.each { |a| a[1] += 1 if new_index < a[1] && a[1] <= index }
+        positions.each { |a| a[1] += 1 if new_index <= a[1] && a[1] < index }
+        original_positions.each { |a| a[1] += 1 if new_index <= a[1] && a[1] < index }
       end
+
+      original_positions[original_index][1] = new_index
     end
   end
 
@@ -44,6 +51,10 @@ end
 def part2(numbers)
   numbers = numbers.map { |n| n * 811589153 }
   mixed = mix(numbers, iterations: 10)
+
+  mixed[(mixed.index(0) + 1000) % mixed.length] +
+    mixed[(mixed.index(0) + 2000) % mixed.length] +
+    mixed[(mixed.index(0) + 3000) % mixed.length]
 end
 
 input = ARGF.read.chomp
